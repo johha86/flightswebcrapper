@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FlightsWebScrapper": {
+      "commandName": "Project",
+      "commandLineArgs": "current --flight dl363"
+    }
+  }
+}
