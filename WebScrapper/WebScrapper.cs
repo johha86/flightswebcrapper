@@ -9,52 +9,55 @@ namespace WebScrapperLibrary
     public class WebScrapper
     {
         private State m_currentState;
+        private ChromeDriver m_chromeDriver;
+        private readonly string m_flight;
+        private readonly string m_email;
+        private readonly string m_password;
+        private readonly string m_loginUrl;
 
         public State LoginPage;
         public State SearchPage;
         public State ResultPage;
 
-        internal ChromeDriver m_chromeDriver;
-        internal readonly string m_flight;
-        internal readonly string m_username;
-        internal readonly string m_password;
-        internal readonly string m_loginUrl;
 
-        public WebScrapper(string flight,string username, string password,string loginUrl)
+        public WebScrapper(string flight, string username, string password, string loginUrl)
         {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.AddArgument("--start-maximized");
             m_chromeDriver = new ChromeDriver(chromeOptions);
 
             m_flight = flight;
-            m_username = username;
+            m_email = username;
             m_password = password;
             m_loginUrl = loginUrl;
+
+            //  State initializing
+            LoginPage = new LoginState(this);
+            SearchPage = new SearchState(this);
+            m_currentState = LoginPage;
         }
 
         public void TransitioTo(State next)
         {
+            if (m_currentState != null)
+                m_currentState.End();
 
+            m_currentState = next;
+
+            m_currentState.Start();
+            m_currentState.Process();
         }
 
         public void Run()
         {
-            var navigation = m_chromeDriver.Navigate();
-            navigation.GoToUrl(m_loginUrl);
-            System.Threading.Thread.Sleep(2000);
-
-            var logInElement = m_chromeDriver.FindElementByXPath("//*[@id='premiumOverlay']/a");
-            logInElement.Click();
-            System.Threading.Thread.Sleep(500);
-
-            var emailInput = m_chromeDriver.FindElementByXPath("//*[@id='fr24_SignInEmail']");
-            emailInput.SendKeys(m_username);
-
-            var passwordInput = m_chromeDriver.FindElementByXPath("//*[@id='fr24_SignInPassword']");
-            passwordInput.SendKeys(m_password);
-
-            var logInSubmitBtn = m_chromeDriver.FindElementByXPath("//*[@id='fr24_SignIn']");
-            logInSubmitBtn.Click();
+            m_currentState.Start();
+            m_currentState.Process();
         }
+
+        public ChromeDriver Driver => m_chromeDriver;
+        public string Flight => m_flight;
+        public string Email => m_email;
+        public string Password => m_password;
+        public string LoginUrl => m_loginUrl;
     }
 }
