@@ -11,4 +11,8 @@
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="81.0.4044.13800" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataLayerLibrary\DataLayerLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
