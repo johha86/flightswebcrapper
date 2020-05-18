@@ -4,28 +4,35 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using WebScrapperLibrary;
 
 namespace FlightsWebScrapper
 {
     class Program
     {
         private static Parser parser;
+        private static WebScrapper scrapper;
+
         public static Parsed<CurrentOptions> parserResult;
         public static IConfiguration Configuration;
+
+
         static void Main(string[] args)
         {
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(Path.Combine(AppContext.BaseDirectory))
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+
             parser = new CommandLine.Parser(with => with.HelpWriter = null);
             var result = parser.ParseArguments<CurrentOptions>(args)
                 .MapResult(
                     (CurrentOptions current) => Run(current),
                     (err) => ErrorsHandler(err)
-                    );
-
-            Configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .Build();            
+                    );                       
         }
 
         private static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)
@@ -44,9 +51,12 @@ namespace FlightsWebScrapper
 
         private static int Run(CurrentOptions options)
         {
-            if (string.IsNullOrEmpty(options.Flight))
+            var s = Configuration.GetSection("DbSettings").GetSection("connectionString");
+            var conn = s["DbSettings:connectionString"];
+            if (!string.IsNullOrEmpty(options.Flight))
             {
-
+                scrapper = new WebScrapper(options.Flight, "pqrhot2016@gmail.com", "Cerbero666", "https://www.flightradar24.com/21.33,-94.49/6");
+                scrapper.Run();
             }
 
             return 0;

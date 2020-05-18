@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataLayerLibrary\DataLayerLibrary.csproj" />
+    <ProjectReference Include="..\WebScrapper\WebScrapperLibrary.csproj" />
   </ItemGroup>
 
 </Project>
