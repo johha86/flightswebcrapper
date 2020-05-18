@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium.Chrome;
 using System;
+using System.Collections.Generic;
+using DataLayerLibrary;
 
 namespace WebScrapperLibrary
 {
@@ -18,7 +20,9 @@ namespace WebScrapperLibrary
         public State LoginPage;
         public State SearchPage;
         public State ResultPage;
+        public State EndPage;
 
+        public List<Flight> Models;
 
         public WebScrapper(string flight, string username, string password, string loginUrl)
         {
@@ -35,7 +39,10 @@ namespace WebScrapperLibrary
             LoginPage = new LoginState(this);
             SearchPage = new SearchState(this);
             ResultPage = new ListState(this);
+            EndPage = new EndState(this);
             m_currentState = LoginPage;
+
+            Models = new List<Flight>();
         }
 
         public void TransitioTo(State next)
