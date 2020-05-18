@@ -34,6 +34,7 @@ namespace WebScrapperLibrary
             //  State initializing
             LoginPage = new LoginState(this);
             SearchPage = new SearchState(this);
+            ResultPage = new ListState(this);
             m_currentState = LoginPage;
         }
 
