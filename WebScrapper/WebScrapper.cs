@@ -36,11 +36,12 @@ namespace WebScrapperLibrary
             m_email = username;
             m_password = password;
             m_loginUrl = loginUrl;
+            m_retrieveAll = all;
 
             //  State initializing
             LoginPage = new LoginState(this);
             SearchPage = new SearchState(this);
-            RetrieveAllPage = new ListState(this);
+            RetrieveAllPage = new RetrieveAllState(this);
             RetrieveTodayPage = new RetrieveTodayState(this);
             EndPage = new EndState(this);
             m_currentState = LoginPage;
@@ -59,10 +60,18 @@ namespace WebScrapperLibrary
             m_currentState.Process();
         }
 
-        public void Run()
+        public bool Run()
         {
-            m_currentState.Start();
-            m_currentState.Process();
+            try
+            {
+                m_currentState.Start();
+                m_currentState.Process();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public ChromeDriver Driver => m_chromeDriver;

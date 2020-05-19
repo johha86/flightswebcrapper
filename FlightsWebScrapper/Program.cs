@@ -14,7 +14,7 @@ namespace FlightsWebScrapper
     class Program
     {
         private static Parser parser;
-        private static WebScrapper scrapper;
+        private static FlightsETL m_etl;
 
         public static Parsed<CurrentOptions> parserResult;
         public static IConfiguration Configuration;
@@ -55,8 +55,8 @@ namespace FlightsWebScrapper
             var conn = s["DbSettings:connectionString"];
             if (!string.IsNullOrEmpty(options.Flight))
             {
-                scrapper = new WebScrapper(options.Flight, "pqrhot2016@gmail.com", "Cerbero666", "https://www.flightradar24.com/21.33,-94.49/6");
-                scrapper.Run();
+                m_etl = new FlightsETL(options);
+                m_etl.Run();
             }
 
             return 0;

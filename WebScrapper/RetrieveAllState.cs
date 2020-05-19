@@ -6,21 +6,23 @@ using System.Text;
 
 namespace WebScrapperLibrary
 {
-    public class RetrieveTodayState : State
-    {
-        public RetrieveTodayState(WebScrapper context) : base(context)
+    public class RetrieveAllState : State
+    {   
+        public RetrieveAllState(WebScrapper context):base(context)
         {
+            
         }
 
         public override void End()
         {
+            
         }
 
         public override void Process()
-        {
+        {            
             var logInElement = m_context.Driver.FindElementByXPath("//*[@id='tbl-datatable']/tbody");
             Flight model;
-            var today = DateTime.Today;
+
             var trCollection = logInElement.FindElements(By.XPath(".//tr"));
             foreach (var row in trCollection)
             {
@@ -29,8 +31,7 @@ namespace WebScrapperLibrary
                 var date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
                 date = date.AddSeconds(double.Parse(dateWebElement.GetAttribute("data-timestamp"))).ToLocalTime();
                 var status = row.FindElement(By.XPath(".//td[12]")).GetAttribute("data-prefix").ToLower().Trim();
-
-                if ((status == "landed" || status == "canceled" ) &&date.Day == today.Day && date.Month == today.Month && date.Year == today.Year)
+                if (status == "landed" || status == "canceled")
                 {
                     var fromAirportFullname = row.FindElement(By.XPath(".//td[4]")).GetAttribute("title");
 
@@ -65,11 +66,20 @@ namespace WebScrapperLibrary
                     model.ActualTimeArrival = !string.IsNullOrEmpty(actualTimeArrival) ? double.Parse(actualTimeArrival) : 0;
 
                     m_context.Models.Add(model);
-                    break;
-                }
-                else
-                {
 
+                    var d1 = !string.IsNullOrEmpty(scheduledTimeDeparture) ? new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(double.Parse(scheduledTimeDeparture)).ToLocalTime().ToShortTimeString() : "";
+                    var d2 = !string.IsNullOrEmpty(actualTimeDeparture) ? new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(double.Parse(actualTimeDeparture)).ToLocalTime().ToShortTimeString() : "";
+                    var d3 = !string.IsNullOrEmpty(scheduledTimeArrival) ? new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(double.Parse(scheduledTimeArrival)).ToLocalTime().ToShortTimeString() : "";
+
+                    Console.WriteLine($"{date.ToShortDateString()} " +
+                        $"{fromAirportIATA} " +
+                        $"{toAirportIATA} " +
+                        $"{aircraftModel} " +
+                        $"{flightTime} " +
+                        $"{d1} " +
+                        $"{d2} " +
+                        $"{d3} " +
+                        $"{status}");
                 }
             }
 
@@ -78,7 +88,7 @@ namespace WebScrapperLibrary
 
         public override void Start()
         {
-
+            
         }
     }
 }
