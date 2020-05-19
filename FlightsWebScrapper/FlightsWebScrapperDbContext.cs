@@ -22,5 +22,6 @@ namespace FlightsWebScrapper
         }
 
         public DbSet<Test> _Tests { get; set; }
+        public DbSet<Flight> Flights { get; set; }
     }
 }

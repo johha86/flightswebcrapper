@@ -4,14 +4,16 @@ using FlightsWebScrapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlightsWebScrapper.Migrations
 {
     [DbContext(typeof(FlightsWebScrapperDbContext))]
-    partial class FlightsWebScrapperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200518234823_flightTable1")]
+    partial class flightTable1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
