@@ -80,5 +80,6 @@ namespace WebScrapperLibrary
         public string Password => m_password;
         public string LoginUrl => m_loginUrl;
         public bool RetrieveAll => m_retrieveAll;
+        public int MaxPageToRetrieve => 3;
     }
 }

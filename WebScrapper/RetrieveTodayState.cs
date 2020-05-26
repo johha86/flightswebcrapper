@@ -28,7 +28,7 @@ namespace WebScrapperLibrary
                 var dateWebElement = row.FindElement(By.XPath(".//td[3]"));
                 var date = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
                 date = date.AddSeconds(double.Parse(dateWebElement.GetAttribute("data-timestamp"))).ToLocalTime();
-                var status = row.FindElement(By.XPath(".//td[12]")).GetAttribute("data-prefix").ToLower().Trim();
+                var status = row.FindElement(By.XPath(".//td[12]")).GetAttribute("data-prefix").ToLower().Trim().Replace("&nbsp;", "");
 
                 if ((status == "landed" || status == "canceled" ) &&date.Day == today.Day && date.Month == today.Month && date.Year == today.Year)
                 {

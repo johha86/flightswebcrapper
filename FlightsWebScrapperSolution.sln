@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightsWebScrapper", "FlightsWebScrapper\FlightsWebScrapper.csproj", "{1BA3852D-5387-47FE-8E71-354E4AEE8012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightsWebScrapper", "FlightsWebScrapper\FlightsWebScrapper.csproj", "{1BA3852D-5387-47FE-8E71-354E4AEE8012}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayerLibrary", "DataLayerLibrary\DataLayerLibrary.csproj", "{BAB40434-A9FF-44A7-8889-8B46405F3D21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayerLibrary", "DataLayerLibrary\DataLayerLibrary.csproj", "{BAB40434-A9FF-44A7-8889-8B46405F3D21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{B584B50B-E771-4AAA-9AF3-95D9238C8E7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject", "TestProject\TestProject.csproj", "{B584B50B-E771-4AAA-9AF3-95D9238C8E7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebScrapperLibrary", "WebScrapper\WebScrapperLibrary.csproj", "{0EFFF59B-4801-459D-AAB5-2D97C7D1BE06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebScrapperLibrary", "WebScrapper\WebScrapperLibrary.csproj", "{0EFFF59B-4801-459D-AAB5-2D97C7D1BE06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

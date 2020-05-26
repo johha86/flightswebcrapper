@@ -20,7 +20,7 @@ namespace WebScrapperLibrary
         public override void Process()
         {
             var navigation = m_context.Driver.Navigate();
-            navigation.GoToUrl("https://www.flightradar24.com/data/flights/dl363");
+            navigation.GoToUrl($"https://www.flightradar24.com/data/flights/{m_context.Flight}");
             System.Threading.Thread.Sleep(2000);
 
             if (m_context.RetrieveAll)

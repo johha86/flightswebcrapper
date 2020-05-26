@@ -31,19 +31,26 @@ namespace FlightsWebScrapper
         /// </summary>
         private void LoadDataIntoDatabase()
         {
-            var options = new DbContextOptionsBuilder<FlightsWebScrapperDbContext>()
-                   .UseSqlServer(@"Server=localhost;Database=FlightsHistorical;uid=sa;pwd=Cuba1234;Integrated Security=True")
-                   .Options;
-            using (var ctx = new FlightsWebScrapperDbContext(options))
+            try
             {
-                foreach (var item in scrapper.Models)
+                var options = new DbContextOptionsBuilder<FlightsWebScrapperDbContext>()
+                           .UseSqlServer(@"Server=localhost;Database=FlightsHistorical;uid=sa;pwd=Cuba1234;Integrated Security=True")
+                           .Options;
+                using (var ctx = new FlightsWebScrapperDbContext(options))
                 {
-                    ctx.Flights.Add(item);
-                }
+                    foreach (var item in scrapper.Models)
+                    {
+                        ctx.Flights.Add(item);
+                    }
 
-                //  Persist model into DB
-                ctx.SaveChanges();
-            }            
+                    //  Persist model into DB
+                    ctx.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }          
         }
     }
 }

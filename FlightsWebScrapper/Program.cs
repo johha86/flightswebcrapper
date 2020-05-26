@@ -32,7 +32,7 @@ namespace FlightsWebScrapper
                 .MapResult(
                     (CurrentOptions current) => Run(current),
                     (err) => ErrorsHandler(err)
-                    );                       
+                    );                   
         }
 
         private static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)
@@ -58,7 +58,7 @@ namespace FlightsWebScrapper
                 m_etl = new FlightsETL(options);
                 m_etl.Run();
             }
-
+                        
             return 0;
         }
 
