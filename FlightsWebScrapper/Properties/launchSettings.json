@@ -2,7 +2,7 @@
   "profiles": {
     "FlightsWebScrapper": {
       "commandName": "Project",
-      "commandLineArgs": "current --flight dl366"
+      "commandLineArgs": "history --flight dl366"
     }
   }
 }

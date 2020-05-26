@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Extensions.Configuration;
 using WebScrapperLibrary;
 
 namespace FlightsWebScrapper
@@ -9,18 +8,32 @@ namespace FlightsWebScrapper
     public class FlightsETL
     {
         private static WebScrapper scrapper;
-        private readonly CurrentOptions m_options;
+        private readonly CurrentOptions m_optionsCurrent;
+        private readonly HistoricalOptions m_optionsHistorical;
 
-        public FlightsETL(CurrentOptions options)
+        public FlightsETL(CurrentOptions curr)
         {
-            m_options = options;
+            m_optionsCurrent = curr;
+        }
+
+        public FlightsETL(HistoricalOptions hist)
+        {
+            m_optionsHistorical = hist;
         }
 
         public void Run()
         {
             //  Extraction and Transform
-            scrapper = new WebScrapper(m_options.Flight, "pqrhot2016@gmail.com", "Cerbero666", "https://www.flightradar24.com/21.33,-94.49/6",true);
-            if(scrapper.Run())
+            if (m_optionsCurrent != null)
+            {
+                scrapper = new WebScrapper(m_optionsCurrent.Flight, "pqrhot2016@gmail.com", "Cerbero666", "https://www.flightradar24.com/21.33,-94.49/6", false);
+            }
+            else if (m_optionsHistorical != null)
+            {
+                scrapper = new WebScrapper(m_optionsHistorical.Flight, "pqrhot2016@gmail.com", "Cerbero666", "https://www.flightradar24.com/21.33,-94.49/6", true);
+            }
+
+            if (scrapper.Run())
             {
                 LoadDataIntoDatabase();
             }
@@ -33,8 +46,9 @@ namespace FlightsWebScrapper
         {
             try
             {
+                var connectionString = Program.configuration.GetConnectionString("DataConnection");
                 var options = new DbContextOptionsBuilder<FlightsWebScrapperDbContext>()
-                           .UseSqlServer(@"Server=localhost;Database=FlightsHistorical;uid=sa;pwd=Cuba1234;Integrated Security=True")
+                           .UseSqlServer(connectionString)
                            .Options;
                 using (var ctx = new FlightsWebScrapperDbContext(options))
                 {
