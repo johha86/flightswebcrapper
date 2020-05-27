@@ -2,6 +2,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using WebScrapperLibrary;
+using System.Linq;
 
 namespace FlightsWebScrapper
 {
@@ -23,14 +24,17 @@ namespace FlightsWebScrapper
 
         public void Run()
         {
+            var credentialSection = Program.configuration.GetSection("Credentials");
+            var credentials = credentialSection.GetChildren().ToArray();
+            
             //  Extraction and Transform
             if (m_optionsCurrent != null)
             {
-                scrapper = new WebScrapper(m_optionsCurrent.Flight, "pqrhot2016@gmail.com", "Cerbero666", "https://www.flightradar24.com/21.33,-94.49/6", false);
+                scrapper = new WebScrapper(m_optionsCurrent.Flight, credentials[0].Value, credentials[1].Value, "https://www.flightradar24.com/21.33,-94.49/6", false);
             }
             else if (m_optionsHistorical != null)
             {
-                scrapper = new WebScrapper(m_optionsHistorical.Flight, "pqrhot2016@gmail.com", "Cerbero666", "https://www.flightradar24.com/21.33,-94.49/6", true);
+                scrapper = new WebScrapper(m_optionsHistorical.Flight, credentials[0].Value, credentials[1].Value, "https://www.flightradar24.com/21.33,-94.49/6", true);
             }
 
             if (scrapper.Run())
